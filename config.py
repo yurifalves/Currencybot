@@ -4,28 +4,33 @@ from bot import Bot
 import logging
 import sys
 import time
-from apis.currencyapi import currency_api
+from apis.currencyapi import import currency_api_all, currency_api_importants
 
 bot = telebot.TeleBot(Bot.token())
 
 
-@bot.message_handler(func=lambda mensagem: True if mensagem.text == 'comando1' else False)
-@bot.message_handler(commands=['comando1'])
-def comando1(mensagem):
-    pass
+@bot.message_handler(func=lambda mensagem: True if mensagem.text == 'Currency-api' else False)
+@bot.message_handler(commands=['currency_api'])
+def currency_api(mensagem):
+    bot.send_message(mensagem.chat.id, currency_api_importants())
+    with open('All-(Currency-api).txt', 'w', encoding='utf-8') as arquivo:
+        arquivo.write(currency_api_all())
+    doc = open('All-(Currency-api).txt', 'rb')
+    bot.send_document(mensagem.chat.id, doc)
 
 @bot.message_handler(func=lambda mensagem: True)
 def responder(mensagem):
     texto_padrao = """
 *MENU INICIAL*\n
-/comando1 descrição
-/comando2 descrição
-/comando3 descrição
-/comando4 descrição
+Selecione uma das APIs para realizar a consulta
+/currency_api
+/comando2
+/comando3
+/comando4
 /comando5
     """
     markup = types.ReplyKeyboardMarkup()
-    itembtn1 = types.KeyboardButton('comando1')
+    itembtn1 = types.KeyboardButton('currency_api')
     itembtn2 = types.KeyboardButton('comando2')
     itembtn3 = types.KeyboardButton('comando3')
     itembtn4 = types.KeyboardButton('comando4')
