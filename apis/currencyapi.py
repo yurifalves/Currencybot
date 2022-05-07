@@ -49,10 +49,10 @@ def currency_api_all():
         cotacao, data = currency_api('latest', f'currencies/{codigo}/brl')['brl'], currency_api('latest', f'currencies/{codigo}/brl')['date']
         texto += f'{moeda} ({codigo.upper()}) = R$ {str(cotacao).replace(".", ",")}   [{data}]\n'
 
-    with open('todas-as-moedas-(Currency-api).txt', 'w', encoding='utf-8') as arquivo:
+    with open('All-(Currency-api).txt', 'w', encoding='utf-8') as arquivo:
         arquivo.write(texto)
 
-    arquivo = open('todas-as-moedas-(Currency-api).txt', 'r', encoding='utf-8')
+    arquivo = open('All-(Currency-api).txt', 'r', encoding='utf-8')
     return arquivo
 
 
@@ -60,7 +60,6 @@ def currency_api_importants():
     all_currencies = currency_api('latest', 'currencies')
     all_currencies.pop('brl')
     moedas_importantes = ['usd', 'eur', 'gbp', 'chf', 'jpy', 'rub', 'aud', 'cad', 'ars']
-    qtd_moedas = len(moedas_importantes)
     texto = f'Principais Moedas\n\n'
 
 
