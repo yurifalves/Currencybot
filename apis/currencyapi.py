@@ -1,7 +1,8 @@
 from typing import Union
 import requests
+import time
 
-
+inicio = time.time()
 def currency_api(date: str, endpoint: str, minified: bool = True, apiVersion: int = 1) -> Union[dict, str]:
     """
     Currency-api: https://github.com/fawazahmed0/currency-api#
@@ -29,6 +30,26 @@ def currency_api(date: str, endpoint: str, minified: bool = True, apiVersion: in
 
 
 if __name__ == '__main__':
-    print(currency_api('2020-11-22', 'currencies'))
-    print(currency_api('2020-11-22', 'currencies/brl'))
-    print(currency_api('2020-11-22', 'currencies/usd/brl'))
+
+    all_currencies = currency_api('latest', 'currencies')
+    all_currencies.pop('brl')
+    qtd_moedas = len(all_currencies)
+    texto = f'{qtd_moedas} Moedas encontradas\n\n'
+    moedas_importantes = ['usd', 'eur', 'gbp', 'chf', 'jpy', 'rub', 'aud', 'cad', 'ars']
+    moedas_secundarias = [codigo for codigo in all_currencies.keys() if codigo not in moedas_importantes]
+
+    while len(moedas_importantes) != 0:
+        for codigo, moeda in all_currencies.items():
+            if codigo == moedas_importantes[0]:
+                cotacao, data = currency_api('latest', f'currencies/{codigo}/brl')['brl'], currency_api('latest', f'currencies/{codigo}/brl')['date']
+                texto += f'{moeda} ({codigo.upper()}) = R$ {cotacao}   [{data}]\n'
+                moedas_importantes.remove(codigo)
+                if len(moedas_importantes) == 0: break
+    for codigo, moeda in all_currencies.items():
+        cotacao, data = currency_api('latest', f'currencies/{codigo}/brl')['brl'], currency_api('latest', f'currencies/{codigo}/brl')['date']
+        texto += f'{moeda} ({codigo.upper()}) = R$ {cotacao}   [{data}]\n'
+
+    with open('meuarquivo1234.txt', 'w', encoding='utf-8') as arquivo:
+        arquivo.write(texto)
+
+print(time.time()-inicio)
