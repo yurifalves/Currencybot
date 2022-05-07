@@ -1,6 +1,7 @@
 from typing import Union
-import requests
 import time
+import requests
+
 
 inicio = time.time()
 def currency_api(date: str, endpoint: str, minified: bool = True, apiVersion: int = 1) -> Union[dict, str]:
@@ -29,8 +30,7 @@ def currency_api(date: str, endpoint: str, minified: bool = True, apiVersion: in
         return f'Algo inesperado ocorreu: {r}'
 
 
-if __name__ == '__main__':
-
+def currency_api_all():
     all_currencies = currency_api('latest', 'currencies')
     all_currencies.pop('brl')
     qtd_moedas = len(all_currencies)
@@ -39,17 +39,24 @@ if __name__ == '__main__':
     moedas_secundarias = [codigo for codigo in all_currencies.keys() if codigo not in moedas_importantes]
 
     while len(moedas_importantes) != 0:
-        for codigo, moeda in all_currencies.items():
-            if codigo == moedas_importantes[0]:
-                cotacao, data = currency_api('latest', f'currencies/{codigo}/brl')['brl'], currency_api('latest', f'currencies/{codigo}/brl')['date']
-                texto += f'{moeda} ({codigo.upper()}) = R$ {cotacao}   [{data}]\n'
-                moedas_importantes.remove(codigo)
-                if len(moedas_importantes) == 0: break
+        codigo = moedas_importantes[0]
+        moeda = all_currencies[codigo]
+        cotacao, data = currency_api('latest', f'currencies/{codigo}/brl')['brl'], currency_api('latest', f'currencies/{codigo}/brl')['date']
+        texto += f'{moeda} ({codigo.upper()}) = R$ {cotacao}   [{data}]\n'
+        moedas_importantes.remove(codigo)
+
     for codigo, moeda in all_currencies.items():
         cotacao, data = currency_api('latest', f'currencies/{codigo}/brl')['brl'], currency_api('latest', f'currencies/{codigo}/brl')['date']
         texto += f'{moeda} ({codigo.upper()}) = R$ {cotacao}   [{data}]\n'
 
-    with open('meuarquivo1234.txt', 'w', encoding='utf-8') as arquivo:
+    with open('meuarquivo12345.txt', 'w', encoding='utf-8') as arquivo:
         arquivo.write(texto)
+
+    arquivo = open('meuarquivo12345.txt', 'r')
+    return arquivo
+
+if __name__ == '__main__':
+    currency_api_all()
+
 
 print(time.time()-inicio)
