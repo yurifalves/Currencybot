@@ -3,6 +3,7 @@ from telebot import types
 from bot import Bot
 import logging
 import sys
+import os
 import time
 from apis.currencyapi import import currency_api_all, currency_api_importants
 
@@ -17,6 +18,7 @@ def currency_api(mensagem):
         arquivo.write(currency_api_all())
     doc = open('All-(Currency-api).txt', 'rb')
     bot.send_document(mensagem.chat.id, doc)
+    # os.remove('All-(Currency-api).txt')
 
 @bot.message_handler(func=lambda mensagem: True)
 def responder(mensagem):
