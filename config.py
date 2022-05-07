@@ -4,7 +4,7 @@ from bot import Bot
 import logging
 import sys
 import time
-from apis.currencyapi import currencyapi
+from apis.currencyapi import currency_api
 
 bot = telebot.TeleBot(Bot.token())
 
