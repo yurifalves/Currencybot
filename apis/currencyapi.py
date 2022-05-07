@@ -41,7 +41,7 @@ def currency_api_all():
         codigo = moedas_importantes[0]
         moeda = all_currencies[codigo]
         cotacao, data = currency_api('latest', f'currencies/{codigo}/brl')['brl'], currency_api('latest', f'currencies/{codigo}/brl')['date']
-        texto += f'{moeda} ({codigo.upper()}) = R$ {cotacao}   [{data}]\n'
+        texto += f'{moeda} ({codigo.upper()}) = R$ {str(cotacao).replace(".", ",")}   [{data}]\n'
         moedas_importantes.remove(codigo)
         all_currencies.pop(codigo)
 
@@ -49,10 +49,10 @@ def currency_api_all():
         cotacao, data = currency_api('latest', f'currencies/{codigo}/brl')['brl'], currency_api('latest', f'currencies/{codigo}/brl')['date']
         texto += f'{moeda} ({codigo.upper()}) = R$ {str(cotacao).replace(".", ",")}   [{data}]\n'
 
-    with open('meuarquivo12345.txt', 'w', encoding='utf-8') as arquivo:
+    with open('todas-as-moedas-(Currency-api).txt', 'w', encoding='utf-8') as arquivo:
         arquivo.write(texto)
 
-    arquivo = open('meuarquivo12345.txt', 'r', encoding='utf-8')
+    arquivo = open('todas-as-moedas-(Currency-api).txt', 'r', encoding='utf-8')
     return arquivo
 
 
@@ -61,7 +61,7 @@ def currency_api_importants():
     all_currencies.pop('brl')
     moedas_importantes = ['usd', 'eur', 'gbp', 'chf', 'jpy', 'rub', 'aud', 'cad', 'ars']
     qtd_moedas = len(moedas_importantes)
-    texto = f'{qtd_moedas} Moedas encontradas\n\n'
+    texto = f'Principais Moedas\n\n'
 
 
     while len(moedas_importantes) != 0:
@@ -75,6 +75,7 @@ def currency_api_importants():
 
 
 if __name__ == '__main__':
-    inicio = time.time()
+    inicio2 = time.time()
     print(currency_api_importants())
-    print(time.time() - inicio)
+    print(time.time() - inicio2)
+    currency_api_all()
