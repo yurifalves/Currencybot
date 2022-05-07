@@ -29,7 +29,7 @@ def currency_api(date: str, endpoint: str, minified: bool = True, apiVersion: in
         return f'Algo inesperado ocorreu: {r}'
 
 
-def currency_api_all():
+def currency_api_all() -> str:
     all_currencies = currency_api('latest', 'currencies')
     all_currencies.pop('brl')
     qtd_moedas = len(all_currencies)
@@ -49,14 +49,10 @@ def currency_api_all():
         cotacao, data = currency_api('latest', f'currencies/{codigo}/brl')['brl'], currency_api('latest', f'currencies/{codigo}/brl')['date']
         texto += f'{moeda} ({codigo.upper()}) = R$ {str(cotacao).replace(".", ",")}   [{data}]\n'
 
-    with open('All-(Currency-api).txt', 'w', encoding='utf-8') as arquivo:
-        arquivo.write(texto)
-
-    arquivo = open('All-(Currency-api).txt', 'r', encoding='utf-8')
-    return arquivo
+    return texto
 
 
-def currency_api_importants():
+def currency_api_importants() -> str:
     all_currencies = currency_api('latest', 'currencies')
     all_currencies.pop('brl')
     moedas_importantes = ['usd', 'eur', 'gbp', 'chf', 'jpy', 'rub', 'aud', 'cad', 'ars']
@@ -74,7 +70,6 @@ def currency_api_importants():
 
 
 if __name__ == '__main__':
-    inicio2 = time.time()
+    inicio = time.time()
     print(currency_api_importants())
-    print(time.time() - inicio2)
-    currency_api_all()
+    print(time.time() - inicio)
