@@ -11,7 +11,7 @@ bot = telebot.TeleBot(Bot.token())
 
 @bot.message_handler(func=lambda mensagem: True if mensagem.text == 'comando1' else False)
 @bot.message_handler(commands=['comando1'])
-def trigonometria1(mensagem):
+def comando1(mensagem):
     pass
 
 @bot.message_handler(func=lambda mensagem: True)
