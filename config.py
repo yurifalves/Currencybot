@@ -18,7 +18,8 @@ def currency_api(mensagem):
         arquivo.write(currency_api_all())
     doc = open('All-(Currency-api).txt', 'rb')
     bot.send_document(mensagem.chat.id, doc)
-    # os.remove('All-(Currency-api).txt')
+    doc.close()
+    os.remove('All-(Currency-api).txt')
 
 @bot.message_handler(func=lambda mensagem: True)
 def responder(mensagem):
