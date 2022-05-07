@@ -11,7 +11,7 @@ bot = telebot.TeleBot(Bot.token())
 
 
 @bot.message_handler(func=lambda mensagem: True if mensagem.text == 'Currency-api' else False)
-@bot.message_handler(commands=['currency_api'])
+@bot.message_handler(commands=['currencyapi'])
 def currency_api(mensagem):
     bot.send_message(mensagem.chat.id, currency_api_importants())
     with open('All-(Currency-api).txt', 'w', encoding='utf-8') as arquivo:
@@ -25,14 +25,14 @@ def responder(mensagem):
     texto_padrao = """
 *MENU INICIAL*\n
 Selecione uma das APIs para realizar a consulta
-/currency_api
+/currencyapi
 /comando2
 /comando3
 /comando4
 /comando5
     """
     markup = types.ReplyKeyboardMarkup()
-    itembtn1 = types.KeyboardButton('currency_api')
+    itembtn1 = types.KeyboardButton('currencyapi')
     itembtn2 = types.KeyboardButton('comando2')
     itembtn3 = types.KeyboardButton('comando3')
     itembtn4 = types.KeyboardButton('comando4')
